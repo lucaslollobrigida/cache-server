@@ -23,20 +23,19 @@ func (c *Cache) HandleGet(ctx *fasthttp.RequestCtx) {
 
 	ctx.Response.Header.SetContentType("application/json")
 	ctx.SetBody(json)
-	return
 }
 
 func (c *Cache) HandlePost(ctx *fasthttp.RequestCtx) {
 	c.Insert(ctx.UserValue("key").(string), string(ctx.Request.Body()))
-	return
 }
 
 func (c *Cache) HandleDelete(ctx *fasthttp.RequestCtx) {
 	c.Remove(ctx.UserValue("key").(string))
-	return
 }
 
 func (c *Cache) Init() *fasthttprouter.Router {
+	c.Map = make(map[string]*Registry)
+
 	router := fasthttprouter.New()
 
 	router.GET("/check", c.HealthCheck)
@@ -50,5 +49,4 @@ func (c *Cache) Init() *fasthttprouter.Router {
 
 func (c *Cache) HealthCheck(ctx *fasthttp.RequestCtx) {
 	ctx.SetBody([]byte("Service is up"))
-	return
 }

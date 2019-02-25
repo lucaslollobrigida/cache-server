@@ -1,7 +1,6 @@
 package cache
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -20,7 +19,6 @@ func (c *Cache) Insert(key string, value string) {
 		value,
 	}
 
-	fmt.Println(key, reg)
 	c.Map[key] = &reg
 }
 

@@ -15,11 +15,7 @@ var (
 func main() {
 	flag.Parse()
 
-	m := make(map[string]*cache.Registry)
-
-	c := cache.Cache{
-		m,
-	}
+	c := cache.Cache{}
 
 	router := c.Init()
 
