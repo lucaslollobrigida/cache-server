@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	addr *string = flag.String("addr", ":3001", "TCP address")
+	addr = flag.String("addr", ":3001", "TCP address")
 )
 
 func main() {

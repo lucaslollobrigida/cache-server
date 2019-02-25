@@ -14,12 +14,12 @@ type Registry struct {
 }
 
 func (c *Cache) Insert(key string, value string) {
-	reg := Registry{
+	reg := &Registry{
 		time.Now(),
 		value,
 	}
 
-	c.Map[key] = &reg
+	c.Map[key] = reg
 }
 
 func (c *Cache) Remove(key string) {
