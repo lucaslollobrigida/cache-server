@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/lucaslollobrigida/cache-server/cache"
+	"github.com/lucaslollobrigida/cache-server/caching"
 	"github.com/valyala/fasthttp"
 )
 
@@ -15,7 +15,7 @@ var (
 func main() {
 	flag.Parse()
 
-	c := cache.Cache{}
+	c := caching.Cache{}
 
 	router := c.Init()
 
