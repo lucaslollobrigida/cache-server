@@ -4,6 +4,7 @@ FROM golang:1.11.5-alpine as build_phase
 WORKDIR /go/src/github.com/lucaslollobrigida/cache-server
 RUN apk add --no-cache git gcc libc6-compat musl-dev
 RUN go get github.com/valyala/fasthttp
+RUN go get github.com/buaazp/fasthttprouter
 COPY . .
 ENV GO111MODULE=on
 RUN go build -o cache-bin
