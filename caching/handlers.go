@@ -58,7 +58,7 @@ func (c *Cache) CleanupExpired() {
 		for {
 			for k, v := range c.Map {
 				if v.RegTime.Add(time.Minute * 5).Before(time.Now()) {
-					fmt.Printf("Removed a registry: %v", v)
+					fmt.Printf("Removed a registry: %v\n", v)
 					c.Remove(k)
 				}
 			}
