@@ -19,6 +19,8 @@ func main() {
 
 	router := c.Init()
 
+	c.CleanupExpired()
+
 	fmt.Printf("Service is listen to 0.0.0.0%s\n", *addr)
 	if err := fasthttp.ListenAndServe(*addr, router.Handler); err != nil {
 		fmt.Println(err)
