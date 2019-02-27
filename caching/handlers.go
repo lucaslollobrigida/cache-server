@@ -2,7 +2,9 @@ package caching
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/buaazp/fasthttprouter"
 	"github.com/valyala/fasthttp"
@@ -49,4 +51,19 @@ func (c *Cache) Init() *fasthttprouter.Router {
 
 func (c *Cache) HealthCheck(ctx *fasthttp.RequestCtx) {
 	ctx.SetBody([]byte("Service is up"))
+}
+
+func (c *Cache) CleanupExpired() {
+	go func() {
+		for {
+			for k, v := range c.Map {
+				if v.RegTime.Add(time.Minute * 5).Before(time.Now()) {
+					fmt.Printf("Removed a registry: %v", v)
+					c.Remove(k)
+				}
+			}
+			fmt.Println("Performed a cleanup")
+			time.Sleep(time.Second * 10)
+		}
+	}()
 }
