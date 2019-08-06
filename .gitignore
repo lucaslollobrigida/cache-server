@@ -10,3 +10,6 @@
 # Unignore important non-extension files
 !Dockerfile
 !Makefile
+
+# environment variables
+.env
