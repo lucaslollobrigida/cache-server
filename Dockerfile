@@ -1,20 +1,23 @@
+ARG GO_VERSION=1.12.7
 # Build Stage
-FROM golang:1.11.5-alpine as build_phase
+FROM golang:${GO_VERSION}-alpine as build_phase
 
-WORKDIR /go/src/github.com/lucaslollobrigida/cache-server
-RUN apk add --no-cache git gcc libc6-compat musl-dev
-RUN go get github.com/valyala/fasthttp
-RUN go get github.com/buaazp/fasthttprouter
+WORKDIR /go/cache-server
+
+RUN apk add git gcc libc6-compat musl-dev
+
 COPY . .
+
 ENV GO111MODULE=on
-RUN go build -o cache-bin
+ENV CGO=0
+RUN go build -ldflags="-s -w" -o cache-bin
 
 # Exec Stage
 FROM alpine:3.9
 
 EXPOSE 3001
 
-COPY --from=build_phase /go/src/github.com/lucaslollobrigida/cache-server/cache-bin .
+COPY --from=build_phase /go/cache-server/cache-bin .
 RUN chmod +x cache-bin
-CMD ["./cache-bin"]
 
+ENTRYPOINT ./cache-bin -dsn=${SENTRY_DSN} -addr=":3001"
