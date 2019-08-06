@@ -5,11 +5,13 @@ A cache store server with REST interface.
 ## Start
 
 ```bash
-$ docker build -t <image-name> .
+echo "SENTRY_DSN=https://yoursentryendpoint.io" > .env
+docker build --secret=.env -t cache-server .
 ```
 
 ```bash
-$ docker run -p 3001:3001 <image-name>
+docker swarm init
+docker stack deploy -c docker-compose.yml <stack-name>
 ```
 
 ## Usage
@@ -18,4 +20,5 @@ $ docker run -p 3001:3001 <image-name>
 + *POST* `/cache/:key` -> create a new key/value registry
 + *DELETE* `/cache/:key` -> delete the registry stored by the key
 
-+ *GET* `/check` -> health check the server
++ *GET* `/health` -> health check the server
++ *GET* `/metrics` -> prometheus application metrics
