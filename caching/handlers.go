@@ -2,9 +2,7 @@ package caching
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/buaazp/fasthttprouter"
 	"github.com/getsentry/sentry-go"
@@ -63,20 +61,4 @@ func (c *Cache) Init() *fasthttprouter.Router {
 // HealthCheck reports the health status of the server via a 200 status code.
 func (c *Cache) HealthCheck(ctx *fasthttp.RequestCtx) {
 	ctx.SetStatusCode(fasthttp.StatusOK)
-}
-
-// CleanupExpired trigger a routine for cleaning expired registries from map.
-func (c *Cache) CleanupExpired() {
-	go func() {
-		for {
-			for k, v := range c.Map {
-				if v.RegTime.Add(time.Minute * 5).Before(time.Now()) {
-					fmt.Printf("Removed a registry: %v\n", v)
-					c.Remove(k)
-				}
-			}
-			fmt.Println("Performed a cleanup")
-			time.Sleep(time.Second * 10)
-		}
-	}()
 }
