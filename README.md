@@ -4,12 +4,16 @@ A cache store server with REST interface.
 
 ## Start
 
-```bash
-echo "SENTRY_DSN=https://yoursentryendpoint.io" > .env
-docker build --secret=.env -t cache-server .
+```sh
+cat <<EOT >> .env
+PORT=3001
+SENTRY_DSN=https://yoursentryendpoint.io
+EOT
+
+docker build -t cache-server .
 ```
 
-```bash
+```sh
 docker swarm init
 docker stack deploy -c docker-compose.yml <stack-name>
 ```
